@@ -49,15 +49,15 @@
         .menu-row {
             display: flex;
             justify-content: center;
-            gap: 6px;
+            gap: 4px; /* Espacio reducido para todos los botones */
         }
 
         .menu-row.s-p {
-            gap: 15px; /* Más separación entre s y p */
+            gap: 4px; /* Mismo espacio reducido */
         }
 
-        .menu-row.s-p .orbital-option:first-child {
-            margin-right: 5px; /* Separación extra después del botón s */
+        .s-orbital {
+            margin-right: 20px; /* Separación extra después del botón s */
         }
 
         .orbital-option {
@@ -135,7 +135,7 @@
             <div class="menu-rows">
                 <!-- Fila 1: s y p -->
                 <div class="menu-row s-p">
-                    <button class="orbital-option" data-orbital="s">s</button>
+                    <button class="orbital-option s-orbital" data-orbital="s">s</button>
                     <button class="orbital-option" data-orbital="px">px</button>
                     <button class="orbital-option" data-orbital="py">py</button>
                     <button class="orbital-option" data-orbital="pz">pz</button>
