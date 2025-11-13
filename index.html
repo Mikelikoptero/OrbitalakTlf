@@ -40,11 +40,24 @@
             font-weight: 600;
         }
 
-        .orbital-options {
+        .menu-rows {
             display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu-row {
+            display: flex;
             justify-content: center;
+            gap: 6px;
+        }
+
+        .menu-row.s-p {
+            gap: 15px; /* Más separación entre s y p */
+        }
+
+        .menu-row.s-p .orbital-option:first-child {
+            margin-right: 5px; /* Separación extra después del botón s */
         }
 
         .orbital-option {
@@ -119,30 +132,34 @@
     <div class="container">
         <div class="menu">
             <h1>Orbital Atomikoak</h1>
-            <div class="orbital-options">
-                <!-- s orbital -->
-                <button class="orbital-option" data-orbital="s">s</button>
+            <div class="menu-rows">
+                <!-- Fila 1: s y p -->
+                <div class="menu-row s-p">
+                    <button class="orbital-option" data-orbital="s">s</button>
+                    <button class="orbital-option" data-orbital="px">px</button>
+                    <button class="orbital-option" data-orbital="py">py</button>
+                    <button class="orbital-option" data-orbital="pz">pz</button>
+                </div>
                 
-                <!-- p orbitalak -->
-                <button class="orbital-option" data-orbital="px">px</button>
-                <button class="orbital-option" data-orbital="py">py</button>
-                <button class="orbital-option" data-orbital="pz">pz</button>
+                <!-- Fila 2: d -->
+                <div class="menu-row">
+                    <button class="orbital-option" data-orbital="dxy">dxy</button>
+                    <button class="orbital-option" data-orbital="dx2y2">dx²-y²</button>
+                    <button class="orbital-option" data-orbital="dyz">dyz</button>
+                    <button class="orbital-option" data-orbital="dzx">dzx</button>
+                    <button class="orbital-option" data-orbital="dz2">dz²</button>
+                </div>
                 
-                <!-- d orbitalak -->
-                <button class="orbital-option" data-orbital="dxy">dxy</button>
-                <button class="orbital-option" data-orbital="dx2y2">dx²-y²</button>
-                <button class="orbital-option" data-orbital="dyz">dyz</button>
-                <button class="orbital-option" data-orbital="dzx">dzx</button>
-                <button class="orbital-option" data-orbital="dz2">dz²</button>
-                
-                <!-- f orbitalak -->
-                <button class="orbital-option" data-orbital="f1">f1</button>
-                <button class="orbital-option" data-orbital="f2">f2</button>
-                <button class="orbital-option" data-orbital="f3">f3</button>
-                <button class="orbital-option" data-orbital="f4">f4</button>
-                <button class="orbital-option" data-orbital="f5">f5</button>
-                <button class="orbital-option" data-orbital="f6">f6</button>
-                <button class="orbital-option" data-orbital="f7">f7</button>
+                <!-- Fila 3: f -->
+                <div class="menu-row">
+                    <button class="orbital-option" data-orbital="f1">f1</button>
+                    <button class="orbital-option" data-orbital="f2">f2</button>
+                    <button class="orbital-option" data-orbital="f3">f3</button>
+                    <button class="orbital-option" data-orbital="f4">f4</button>
+                    <button class="orbital-option" data-orbital="f5">f5</button>
+                    <button class="orbital-option" data-orbital="f6">f6</button>
+                    <button class="orbital-option" data-orbital="f7">f7</button>
+                </div>
             </div>
         </div>
         
@@ -202,7 +219,7 @@
             scene.background = new THREE.Color(0x001122);
             
             // Cámara
-            camera = new THREE.PerspectiveCamera(60, window.innerWidth / (window.innerHeight - 100), 0.01, 1000);
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / (window.innerHeight - 140), 0.01, 1000);
             camera.position.set(0, 0, 3);
             
             // Renderizador
@@ -210,7 +227,7 @@
                 canvas: document.getElementById('orbital-canvas'), 
                 antialias: true
             });
-            renderer.setSize(window.innerWidth, window.innerHeight - 100);
+            renderer.setSize(window.innerWidth, window.innerHeight - 140);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.outputEncoding = THREE.sRGBEncoding;
             
@@ -364,7 +381,7 @@
         
         function onWindowResize() {
             const width = window.innerWidth;
-            const height = window.innerHeight - 100;
+            const height = window.innerHeight - 140;
             
             camera.aspect = width / height;
             camera.updateProjectionMatrix();
