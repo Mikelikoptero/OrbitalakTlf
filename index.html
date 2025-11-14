@@ -50,7 +50,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             padding: 15px;
             z-index: 10;
             transform: translateY(-100%);
@@ -58,19 +58,36 @@
             overflow-y: auto;
             max-height: 80vh;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid #81c784;
         }
 
         .sidebar.active {
             transform: translateY(0);
         }
 
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
         .sidebar h1 {
             text-align: center;
-            margin-bottom: 20px;
             font-size: 1.5rem;
             color: #81c784;
             font-weight: 600;
             text-shadow: 0 0 12px rgba(129, 199, 132, 0.6);
+            flex-grow: 1;
+        }
+
+        .close-menu {
+            background: none;
+            border: none;
+            color: #81c784;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
         }
 
         .orbital-category {
@@ -167,6 +184,10 @@
                 max-height: 100vh;
             }
             
+            .close-menu {
+                display: none;
+            }
+            
             .viewer {
                 flex: 1;
             }
@@ -178,7 +199,10 @@
         <button class="menu-toggle" id="menu-toggle">☰</button>
         
         <div class="sidebar" id="sidebar">
-            <h1>Orbital Atomikoen Irudikapena</h1>
+            <div class="sidebar-header">
+                <h1>Orbital Atomikoen Irudikapena</h1>
+                <button class="close-menu" id="close-menu">✕</button>
+            </div>
             
             <div class="orbital-category">
                 <h2>s orbitala</h2>
@@ -245,7 +269,6 @@
         let scene, camera, renderer, controls;
         let activeOrbitals = new Set();
         let orbitalModels = {};
-        let isRotating = true;
         let loader = new THREE.GLTFLoader();
         
         const baseURL = 'https://raw.githubusercontent.com/Mikelikoptero/Taularako-argazkiak/main/Orbitalak%20aldatuta/';
@@ -330,6 +353,7 @@
             controls.dampingFactor = 0.05;
             controls.minDistance = 1;
             controls.maxDistance = 10;
+            controls.autoRotate = false; // Sin rotación automática
             
             // Configuración de iluminación
             setupLighting();
@@ -371,19 +395,12 @@
             
             // Toggle del menú
             document.getElementById('menu-toggle').addEventListener('click', () => {
-                document.getElementById('sidebar').classList.toggle('active');
+                document.getElementById('sidebar').classList.add('active');
             });
             
-            // Cerrar menú al tocar fuera de él
-            document.addEventListener('click', (e) => {
-                const sidebar = document.getElementById('sidebar');
-                const menuToggle = document.getElementById('menu-toggle');
-                
-                if (sidebar.classList.contains('active') && 
-                    !sidebar.contains(e.target) && 
-                    !menuToggle.contains(e.target)) {
-                    sidebar.classList.remove('active');
-                }
+            // Cerrar menú
+            document.getElementById('close-menu').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.remove('active');
             });
         }
 
@@ -509,11 +526,6 @@
             
             // Actualizar estado de todos los botones
             updateButtonStates();
-            
-            // Cerrar el menú después de seleccionar un orbital (solo en móvil)
-            if (window.innerWidth < 768) {
-                document.getElementById('sidebar').classList.remove('active');
-            }
         }
         
         // Función para cargar modelos orbitales
@@ -627,12 +639,8 @@
         function animate() {
             requestAnimationFrame(animate);
             
-            if (isRotating && activeOrbitals.size > 0) {
-                controls.autoRotate = true;
-                controls.autoRotateSpeed = 0.5;
-            } else {
-                controls.autoRotate = false;
-            }
+            // Sin rotación automática
+            controls.autoRotate = false;
             
             controls.update();
             renderer.render(scene, camera);
