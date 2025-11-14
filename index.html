@@ -65,29 +65,13 @@
             transform: translateY(0);
         }
 
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
         .sidebar h1 {
             text-align: center;
+            margin-bottom: 20px;
             font-size: 1.5rem;
             color: #81c784;
             font-weight: 600;
             text-shadow: 0 0 12px rgba(129, 199, 132, 0.6);
-            flex-grow: 1;
-        }
-
-        .close-menu {
-            background: none;
-            border: none;
-            color: #81c784;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 5px;
         }
 
         .orbital-category {
@@ -184,10 +168,6 @@
                 max-height: 100vh;
             }
             
-            .close-menu {
-                display: none;
-            }
-            
             .viewer {
                 flex: 1;
             }
@@ -199,10 +179,7 @@
         <button class="menu-toggle" id="menu-toggle">☰</button>
         
         <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1>Orbital Atomikoen Irudikapena</h1>
-                <button class="close-menu" id="close-menu">✕</button>
-            </div>
+            <h1>Orbital Atomikoen Irudikapena</h1>
             
             <div class="orbital-category">
                 <h2>s orbitala</h2>
@@ -393,14 +370,9 @@
                 });
             });
             
-            // Toggle del menú
+            // Toggle del menú con el mismo botón ☰
             document.getElementById('menu-toggle').addEventListener('click', () => {
-                document.getElementById('sidebar').classList.add('active');
-            });
-            
-            // Cerrar menú
-            document.getElementById('close-menu').addEventListener('click', () => {
-                document.getElementById('sidebar').classList.remove('active');
+                document.getElementById('sidebar').classList.toggle('active');
             });
         }
 
